@@ -31,9 +31,9 @@ function ProjectCard({ project }) {
                         }}
                         className="w-full rounded-lg border border-gray-700 bg-black px-3 py-2 text-sm text-white outline-none transition focus:border-gray-500 focus:ring-1 focus:ring-gray-500"
                     >
-                        <option value="NOt Started">Not Started</option>
-                        <option value="IN Progress">In Progress</option>
-                        <option value="COMPLETED">Completed</option>
+                        <option value="Not Started">Not Started</option>
+                        <option value="In Progress">In Progress</option>
+                        <option value="Completed">Completed</option>
                     </select>
                 </p>
             </div>
