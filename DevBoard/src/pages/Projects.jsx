@@ -1,9 +1,10 @@
-import { useContext, useState } from "react";
-import { ProjectsContext } from "../context/ProjectsContext";
+import { useState } from "react";
 import ProjectCard from "../components/ProjectCard"
 import AddProject from "../components/AddProject";
+import { useSelector } from "react-redux";
+ 
 function Projects() {
-    const { projects } = useContext(ProjectsContext)
+    const  projects = useSelector((state) => state.projects)
     const [search, setSearch] = useState("")
     const [statusfilter, setStatusFilter] = useState("All")
     const [sortby, setSortBy] = useState("newest")
@@ -95,5 +96,6 @@ function Projects() {
         </main>
     );
 }
+
 
 export default Projects;

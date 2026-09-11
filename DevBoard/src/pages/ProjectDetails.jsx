@@ -1,11 +1,13 @@
 import { useParams } from "react-router-dom";
-import { useContext, useState } from "react";
-import { ProjectsContext } from "../context/ProjectsContext";
+import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { updateProject } from "../features/projects/ProjectSlice";
 function ProjectDetails() {
     const { id } = useParams()
-    const { projects ,handleEditProject} = useContext(ProjectsContext)
+    const projects = useSelector((state) => state.projects)
     const project = projects.find((project) => project.id === id)
+    const dispatch = useDispatch()
     const [isEditing, setIsEditing] = useState(false)
     const [editName, setEditName] = useState(project.name)
     const [editDescription, setEditDescription] = useState(project.description)
@@ -20,13 +22,15 @@ function ProjectDetails() {
                     onSubmit={(e) => {
                         e.preventDefault()
 
-                        handleEditProject(project.id, {
-                            name: editName,
-                            description: editDescription,
-                            technology: editTechnology,
-                            status: editStatus
-                        })
-
+                        dispatch(updateProject({
+                            id: project.id,
+                            updates: {
+                                name: editName,
+                                description: editDescription,
+                                technology: editTechnology,
+                                status: editStatus
+                            }
+                        }))
                         setIsEditing(false)
                     }}
                     className="space-y-6"

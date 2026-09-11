@@ -1,9 +1,8 @@
-import { useContext } from "react"
-import { ProjectsContext } from "../context/ProjectsContext"
 import ProjectCard from "../components/ProjectCard";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 function Dashboard() {
-    const { projects } = useContext(ProjectsContext)
+    const projects  = useSelector((state) => state.projects)
     return (
         <main className="min-h-[calc(100vh-81px)] bg-black text-white">
             <div className="mx-auto max-w-6xl px-6 py-12">
