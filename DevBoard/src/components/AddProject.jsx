@@ -1,17 +1,20 @@
 import { useState } from "react";
-import { ProjectsContext } from "../context/ProjectsContext";
-import { useContext } from "react";
-
+import { useDispatch } from "react-redux";
+import { addProject } from "../features/projects/ProjectSlice";
 
 function AddProject() {
     const [projectName, setProjectName] = useState("")
     const [description, setDescription] = useState("")
     const [technology, setTechnology] = useState([])
-    const { handleAddProject } = useContext(ProjectsContext)
+    const dispatch = useDispatch()
+    
     const handleSubmit = (e) => {
         e.preventDefault()
 
-        handleAddProject(projectName, description, technology)
+         dispatch(addProject({name : projectName, 
+            description : description, 
+            technology : technology}))
+
         setProjectName("")
         setDescription("")
         setTechnology("")
