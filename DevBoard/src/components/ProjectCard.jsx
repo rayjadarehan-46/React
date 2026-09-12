@@ -1,7 +1,7 @@
 import { Link  } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { deleteProject } from "../features/projects/ProjectSlice";
-import {changeStatus} from "../features/projects/ProjectSlice.js"
+import { deleteProjectAsync } from "../features/projects/ProjectSlice";
+import {updateProjectAsync} from "../features/projects/ProjectSlice.js"
 
 function ProjectCard({ project }) {
 
@@ -28,9 +28,11 @@ function ProjectCard({ project }) {
                     <select
                         value={project.status}
                         onChange={(e) => {
-                            dispatch(changeStatus({
+                            dispatch(updateProjectAsync({
                                 id : project.id ,
-                                status : e.target.value 
+                               updates : {
+                                status : e.target.status
+                               }
                             }))
                         }}
                         className="w-full rounded-lg border border-gray-700 bg-black px-3 py-2 text-sm text-white outline-none transition focus:border-gray-500 focus:ring-1 focus:ring-gray-500"
@@ -49,7 +51,7 @@ function ProjectCard({ project }) {
                 type="button"
                 className="mt-4 w-full rounded-lg border border-red-800 px-3 py-2 text-sm font-medium text-red-400 transition hover:bg-red-950 hover:text-red-300"
                 onClick={() => {
-                    dispatch(deleteProject(project.id))
+                    dispatch(deleteProjectAsync(project.id))
                 }}
             >
                 Delete Project

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { addProject } from "../features/projects/ProjectSlice";
+import { createProjectAsync } from "../features/projects/ProjectSlice";
 
 function AddProject() {
     const [projectName, setProjectName] = useState("")
@@ -11,7 +12,7 @@ function AddProject() {
     const handleSubmit = (e) => {
         e.preventDefault()
 
-         dispatch(addProject({name : projectName, 
+         dispatch(createProjectAsync({name : projectName, 
             description : description, 
             technology : technology}))
 

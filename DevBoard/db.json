@@ -1,0 +1,29 @@
+{
+  "projects": [
+    {
+      "id": "1",
+      "name": "Currency Converter",
+      "status": "Completed",
+      "description": "A React app for converting currencies.",
+      "technology": [
+        "HTML",
+        "Tailwind CSS",
+        "JavaScript",
+        "React"
+      ]
+    },
+    {
+      "id": "2",
+      "name": "Background Changer",
+      "status": "Completed",
+      "description": "A React learning project using state to change the background.",
+      "technology": [
+        "HTML",
+        "Tailwind CSS",
+        "JavaScript",
+        "React"
+      ]
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
+}

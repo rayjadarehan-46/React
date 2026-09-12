@@ -1,60 +1,124 @@
-import { createSlice } from "@reduxjs/toolkit"
-import AddProject from "../../components/AddProject"
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
+
+import { getProjects, createProject, updateProject, deleteProject } from "../../api/projectsApi"
+
+
+export const fetchProjects = createAsyncThunk(
+    "projects/fetchProjects",
+    async () => {
+        const projects = await getProjects()
+        return projects
+    }
+)
+export const createProjectAsync = createAsyncThunk(
+    "projects/createProjectAsync",
+    async (project) => {
+        const newProject = await createProject(project)
+        return newProject
+    }
+)
+export const updateProjectAsync = createAsyncThunk(
+    "projects/updateProjectAsync",
+    async ({ id, updates }) => {
+        const updatedProject = await updateProject(id, updates)
+        return updatedProject
+    }
+)
+export const deleteProjectAsync = createAsyncThunk(
+    "projects/deleteProjectAsync",
+    async (id) => {
+        const deleteId = await deleteProject(id)
+        return deleteId
+    }
+)
+
 
 const projectSlice = createSlice({
+
     name: "projects",
-    initialState: [{
-        name: "Currency Converter ",
-        id: "1",
-        status: "Completed",
-        description: "A React app for converting Currencies ",
-        technology: ['HTML', 'Tailwind CSS', 'JavaScript', 'React']
 
+    initialState: {
+        projects: [],
+        loading: false,
+        error: null
     },
-    {
+    reducers :{},
 
-        name: "BackGroundChanger",
-        id: "2",
-        status: "Completed",
-        description: "A React learning project which changes Background color using State",
-        technology: ['HTML', 'Tailwind CSS', 'JavaScript', 'React']
+    extraReducers: (builder) => {
 
+        builder
+            .addCase(fetchProjects.pending, (state) => {
+                state.loading = true
+                state.error = null
+            })
 
-    },
-    {
+            .addCase(fetchProjects.fulfilled, (state, action) => {
+                state.loading = false
+                state.projects = action.payload
+            })
 
-        name: "PasswordGenerator",
-        id: "3",
-        status: "In Progress",
-        description: "A react app with dynamic UI to Generate Unique PassWords",
-        technology: ['HTML', 'Tailwind CSS', 'JavaScript', 'React']
+            .addCase(fetchProjects.rejected, (state, action) => {
+                state.loading = false
+                state.error = action.error.message
+            })
 
-    }],
-    reducers: {
-        deleteProject: (state, action) => {
-            return state.filter((project) => project.id != action.payload)
+            .addCase(createProjectAsync.pending, (state) => {
+                state.loading = true
+                state.error = null
+            })
 
-        },
-        changeStatus: (state, action) => {
-            const project = state.find((project) => project.id === action.payload.id)
-            project.status = action.payload.status
-        },
-        addProject: (state, action) => {
-            const project = {
-                name: action.payload.name,
-                description: action.payload.description,
-                technology: action.payload.technology, id: Date.now().toString(),
-                status: "Not Started"
-            }
-            state.push(project)
-        },
-        updateProject : (state,action) => {
-            const project = state.find((project) => project.id === action.payload.id)
+            .addCase(createProjectAsync.fulfilled, (state, action) => {
+                state.loading = false
+                state.projects.push(action.payload)
+            })
 
-            Object.assign(project, action.payload.updates)
-        }
+            .addCase(createProjectAsync.rejected, (state, action) => {
+                state.loading = false
+                state.error = action.error.message
+            })
+            .addCase(updateProjectAsync.pending, (state) => {
+                state.loading = true
+                state.error = null
+            })
+
+            .addCase(updateProjectAsync.fulfilled, (state, action) => {
+                state.loading = false
+
+                const index = state.projects.findIndex(
+                    (project) => project.id === action.payload.id
+                )
+
+                if (index !== -1) {
+                    state.projects[index] = action.payload
+                }
+            })
+
+            .addCase(updateProjectAsync.rejected, (state, action) => {
+                state.loading = false
+                state.error = action.error.message
+            })
+            .addCase(deleteProjectAsync.pending, (state) => {
+                state.loading = true
+                state.error = null
+            })
+
+            .addCase(deleteProjectAsync.fulfilled, (state, action) => {
+                state.loading = false
+                state.projects = state.projects.filter(
+                    (project) => project.id !== action.payload
+                )
+            })
+
+            .addCase(deleteProjectAsync.rejected, (state, action) => {
+                state.loading = false
+                state.error = action.error.message
+            })
+
     }
 })
 
-export const { deleteProject, changeStatus ,addProject , updateProject} = projectSlice.actions
-export default projectSlice
+
+
+
+
+export default projectSlice.reducer

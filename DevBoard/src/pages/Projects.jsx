@@ -2,9 +2,11 @@ import { useState } from "react";
 import ProjectCard from "../components/ProjectCard"
 import AddProject from "../components/AddProject";
 import { useSelector } from "react-redux";
- 
+
 function Projects() {
-    const  projects = useSelector((state) => state.projects)
+    const projects = useSelector((state) => state.projects.projects)
+    const loading = useSelector((state) => state.projects.loading)
+    const error = useSelector((state) => state.projects.error)
     const [search, setSearch] = useState("")
     const [statusfilter, setStatusFilter] = useState("All")
     const [sortby, setSortBy] = useState("newest")
@@ -81,13 +83,24 @@ function Projects() {
                 </div>
 
                 <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                    {sortedproject.length > 0 ? (
-                        sortedproject.map((project) => (
-                            <ProjectCard key={project.id} project={project} />
-                        ))
-                    ) : (
-                        <p>No projects found.</p>
-                    )}
+                    
+
+                        {loading ? (
+                            <p>Loading projects...</p>
+                        ) : error ? (
+                            <p>{error}</p>
+                        ) : sortedproject.length > 0 ? (
+                            sortedproject.map((project) => (
+                                <ProjectCard
+                                    key={project.id}
+                                    project={project}
+                                />
+                            ))
+                        ) : (
+                            <p>No projects found.</p>
+                        )}
+
+                    
 
 
                 </div>

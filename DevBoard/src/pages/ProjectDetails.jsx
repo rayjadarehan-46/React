@@ -2,17 +2,24 @@ import { useParams } from "react-router-dom";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { updateProject } from "../features/projects/ProjectSlice";
+import { updateProjectAsync  } from "../features/projects/ProjectSlice";
 function ProjectDetails() {
     const { id } = useParams()
-    const projects = useSelector((state) => state.projects)
+    const projects = useSelector((state) => state.projects.projects)
     const project = projects.find((project) => project.id === id)
     const dispatch = useDispatch()
     const [isEditing, setIsEditing] = useState(false)
-    const [editName, setEditName] = useState(project.name)
-    const [editDescription, setEditDescription] = useState(project.description)
-    const [editTechnology, setEditTechnology] = useState(project.technology)
-    const [editStatus, setEditStatus] = useState(project.status)
+    const [editName, setEditName] = useState('')
+    const [editDescription, setEditDescription] = useState('')
+    const [editTechnology, setEditTechnology] = useState([])
+    const [editStatus, setEditStatus] = useState('')
+    if (!project) {
+        return (
+            <p className="p-6 text-white">
+                Loading project...
+            </p>
+        )
+    }
     return (
         <main className="min-h-[calc(100vh-81px)] bg-black text-white">
 
@@ -22,7 +29,7 @@ function ProjectDetails() {
                     onSubmit={(e) => {
                         e.preventDefault()
 
-                        dispatch(updateProject({
+                        dispatch(updateProjectAsync({
                             id: project.id,
                             updates: {
                                 name: editName,
@@ -118,6 +125,10 @@ function ProjectDetails() {
                         <button
                             type="button"
                             onClick={(e) => {
+                                setEditName(project.name)
+                                setEditDescription(project.description)
+                                setEditTechnology(project.technology)
+                                setEditStatus(project.status)
                                 setIsEditing(true)
                             }}
                         >

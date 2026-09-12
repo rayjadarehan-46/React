@@ -2,7 +2,7 @@ import ProjectCard from "../components/ProjectCard";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 function Dashboard() {
-    const projects  = useSelector((state) => state.projects)
+    const projects  = useSelector((state) => state.projects.projects)
     return (
         <main className="min-h-[calc(100vh-81px)] bg-black text-white">
             <div className="mx-auto max-w-6xl px-6 py-12">
