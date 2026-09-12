@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { addProject } from "../features/projects/ProjectSlice";
 import { createProjectAsync } from "../features/projects/ProjectSlice";
 
 function AddProject() {
