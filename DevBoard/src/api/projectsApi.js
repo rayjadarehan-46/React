@@ -1,7 +1,11 @@
-const API_URL = "http://localhost:3001/projects"
+const API_URL = "http://localhost:5000/api/projects"
 
-export const getProjects = async () => {
-    const response = await fetch(API_URL)
+export const getProjects = async (token) => {
+    const response = await fetch(API_URL, {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    })
 
     if (!response.ok) {
         throw new Error("Failed to fetch projects")
@@ -10,11 +14,12 @@ export const getProjects = async () => {
     return response.json()
 }
 
-export const createProject = async (project) => {
+export const createProject = async (project, token) => {
     const response = await fetch(API_URL, {
         method: "POST",
         headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
         },
         body: JSON.stringify(project)
     })
@@ -26,11 +31,12 @@ export const createProject = async (project) => {
     return response.json()
 }
 
-export const updateProject = async (id, updates) => {
+export const updateProject = async (id, updates, token) => {
     const response = await fetch(`${API_URL}/${id}`, {
         method: "PATCH",
         headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
         },
         body: JSON.stringify(updates)
     })
@@ -42,9 +48,12 @@ export const updateProject = async (id, updates) => {
     return response.json()
 }
 
-export const deleteProject = async (id) => {
+export const deleteProject = async (id, token) => {
     const response = await fetch(`${API_URL}/${id}`, {
-        method: "DELETE"
+        method: "DELETE",
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
     })
 
     if (!response.ok) {

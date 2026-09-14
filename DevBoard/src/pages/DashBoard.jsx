@@ -1,8 +1,14 @@
-import ProjectCard from "../components/ProjectCard";
-import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { Link } from "react-router-dom"
+import { useSelector } from "react-redux"
+import ProjectCard from "../components/ProjectCard"
+
 function Dashboard() {
-    const projects  = useSelector((state) => state.projects.projects)
+    const projects = useSelector(
+        (state) => state.projects.projects
+    )
+
+    const recentProjects = projects.slice(0, 3)
+
     return (
         <main className="min-h-[calc(100vh-81px)] bg-black text-white">
             <div className="mx-auto max-w-6xl px-6 py-12">
@@ -44,7 +50,10 @@ function Dashboard() {
                         </p>
 
                         <p className="mt-3 text-4xl font-bold">
-                            {projects.filter((project) => project.status === "In Progress").length}
+                            {projects.filter(
+                                (project) =>
+                                    project.status === "In Progress"
+                            ).length}
                         </p>
 
                         <p className="mt-2 text-sm text-gray-500">
@@ -58,7 +67,10 @@ function Dashboard() {
                         </p>
 
                         <p className="mt-3 text-4xl font-bold">
-                            {projects.filter((project) => project.status === "Completed").length}
+                            {projects.filter(
+                                (project) =>
+                                    project.status === "Completed"
+                            ).length}
                         </p>
 
                         <p className="mt-2 text-sm text-gray-500">
@@ -67,11 +79,17 @@ function Dashboard() {
                     </article>
 
                 </div>
+
                 <section className="mt-12">
                     <div className="mb-5 flex items-center justify-between">
                         <div>
-                            <p className="text-sm font-medium text-indigo-400">YOUR WORK</p>
-                            <h2 className="mt-1 text-2xl font-bold">Recent Projects</h2>
+                            <p className="text-sm font-medium text-indigo-400">
+                                YOUR WORK
+                            </p>
+
+                            <h2 className="mt-1 text-2xl font-bold">
+                                Recent Projects
+                            </h2>
                         </div>
 
                         <Link
@@ -83,19 +101,18 @@ function Dashboard() {
                     </div>
 
                     <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                         {projects.slice(-3).map((project) => (
-                        <ProjectCard
-                            key={project.id}
-                            project={project}
-                        />
-
-                    ))}
+                        {recentProjects.map((project) => (
+                            <ProjectCard
+                                key={project._id}
+                                project={project}
+                            />
+                        ))}
                     </div>
                 </section>
 
             </div>
         </main>
-    );
+    )
 }
 
-export default Dashboard;
+export default Dashboard

@@ -1,7 +1,8 @@
-import { login } from "../features/auth/AuthSlice"
+import { loginUserAsync } from "../features/auth/AuthSlice"
 import { useState } from "react"
 import { useDispatch } from "react-redux"
 import { useNavigate } from "react-router-dom"
+import { Link } from "react-router-dom"
 
 
 function Login() {
@@ -10,16 +11,19 @@ function Login() {
 
     const dispatch = useDispatch()
     const navigate = useNavigate()
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault()
 
-        dispatch(
-            login({
+        const result = await dispatch(
+            loginUserAsync({
                 email,
                 password
             })
         )
-        navigate("/projects")
+
+        if (loginUserAsync.fulfilled.match(result)) {
+            navigate("/projects")
+        }
     }
 
     return (
@@ -113,12 +117,12 @@ function Login() {
 
                         <p className="text-center text-sm text-gray-500">
                             New to DevBoard?{" "}
-                            <button
-                                type="button"
+                            <Link
+                                to="/register"
                                 className="font-medium text-indigo-400 transition hover:text-indigo-300"
                             >
                                 Create an account
-                            </button>
+                            </Link>
                         </p>
                     </form>
                 </section>

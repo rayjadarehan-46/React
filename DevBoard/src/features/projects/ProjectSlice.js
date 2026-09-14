@@ -1,40 +1,67 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 
-import { getProjects, createProject, updateProject, deleteProject } from "../../api/projectsApi"
-
+import {
+    getProjects,
+    createProject,
+    updateProject,
+    deleteProject
+} from "../../api/projectsApi"
 
 export const fetchProjects = createAsyncThunk(
     "projects/fetchProjects",
-    async () => {
-        const projects = await getProjects()
+    async (_, { getState }) => {
+        const token = getState().auth.token
+
+        const projects = await getProjects(token)
+
         return projects
     }
 )
+
 export const createProjectAsync = createAsyncThunk(
     "projects/createProjectAsync",
-    async (project) => {
-        const newProject = await createProject(project)
+    async (project, { getState }) => {
+        const token = getState().auth.token
+
+        const newProject = await createProject(
+            project,
+            token
+        )
+
         return newProject
     }
 )
+
 export const updateProjectAsync = createAsyncThunk(
     "projects/updateProjectAsync",
-    async ({ id, updates }) => {
-        const updatedProject = await updateProject(id, updates)
+    async ({ id, updates }, { getState }) => {
+        const token = getState().auth.token
+
+        const updatedProject = await updateProject(
+            id,
+            updates,
+            token
+        )
+
         return updatedProject
     }
 )
+
 export const deleteProjectAsync = createAsyncThunk(
     "projects/deleteProjectAsync",
-    async (id) => {
-        const deleteId = await deleteProject(id)
-        return deleteId
+    async (id, { getState }) => {
+        const token = getState().auth.token
+
+        const deletedId = await deleteProject(
+            id,
+            token
+        )
+
+        return deletedId
     }
 )
 
-
 const projectSlice = createSlice({
-
     name: "projects",
 
     initialState: {
@@ -42,11 +69,13 @@ const projectSlice = createSlice({
         loading: false,
         error: null
     },
-    reducers :{},
+
+    reducers: {},
 
     extraReducers: (builder) => {
-
         builder
+
+            // FETCH
             .addCase(fetchProjects.pending, (state) => {
                 state.loading = true
                 state.error = null
@@ -62,6 +91,7 @@ const projectSlice = createSlice({
                 state.error = action.error.message
             })
 
+            // CREATE
             .addCase(createProjectAsync.pending, (state) => {
                 state.loading = true
                 state.error = null
@@ -76,6 +106,8 @@ const projectSlice = createSlice({
                 state.loading = false
                 state.error = action.error.message
             })
+
+            // UPDATE
             .addCase(updateProjectAsync.pending, (state) => {
                 state.loading = true
                 state.error = null
@@ -85,7 +117,8 @@ const projectSlice = createSlice({
                 state.loading = false
 
                 const index = state.projects.findIndex(
-                    (project) => project.id === action.payload.id
+                    (project) =>
+                        project._id === action.payload._id
                 )
 
                 if (index !== -1) {
@@ -97,6 +130,8 @@ const projectSlice = createSlice({
                 state.loading = false
                 state.error = action.error.message
             })
+
+            // DELETE
             .addCase(deleteProjectAsync.pending, (state) => {
                 state.loading = true
                 state.error = null
@@ -104,8 +139,10 @@ const projectSlice = createSlice({
 
             .addCase(deleteProjectAsync.fulfilled, (state, action) => {
                 state.loading = false
+
                 state.projects = state.projects.filter(
-                    (project) => project.id !== action.payload
+                    (project) =>
+                        project._id !== action.payload
                 )
             })
 
@@ -113,12 +150,7 @@ const projectSlice = createSlice({
                 state.loading = false
                 state.error = action.error.message
             })
-
     }
 })
-
-
-
-
 
 export default projectSlice.reducer
