@@ -1,7 +1,7 @@
 import { useEffect } from "react"
 import { Routes, Route } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
-
+import Register from "./pages/RegisterUser"
 import Login from "./pages/Login"
 import Navbar from "./components/Navbar"
 import Dashboard from "./pages/DashBoard"
@@ -76,6 +76,10 @@ function App() {
                     <Route
                         path="/login"
                         element={<Login />}
+                    />
+                    <Route
+                        path="/register"
+                        element={<Register />}
                     />
 
                     <Route
