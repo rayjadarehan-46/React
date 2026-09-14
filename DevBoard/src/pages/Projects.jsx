@@ -53,7 +53,7 @@ function Projects() {
     )
 
     return (
-        <main className="min-h-screen bg-black text-white">
+       <main className="min-h-screen bg-transparent text-white">
             <div className="mx-auto max-w-6xl px-6 py-12">
 
                 <div className="mb-10 flex flex-col justify-between gap-5 sm:flex-row sm:items-end">

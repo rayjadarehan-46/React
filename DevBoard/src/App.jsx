@@ -1,13 +1,14 @@
 import { useEffect } from "react"
 import { Routes, Route } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
-import Register from "./pages/RegisterUser"
+
 import Login from "./pages/Login"
 import Navbar from "./components/Navbar"
 import Dashboard from "./pages/DashBoard"
 import Projects from "./pages/Projects"
 import ProjectDetails from "./pages/ProjectDetails"
 import ProtectedRoute from "./components/ProtectedRoute"
+import DotField from "./components/DotedField"
 
 import {
     finishAuthInitialization,
@@ -19,11 +20,11 @@ import { fetchProjects } from "./features/projects/ProjectSlice"
 function App() {
     const dispatch = useDispatch()
 
-    const { authInitialized, isAuthenticated } = useSelector(
-        (state) => state.auth
-    )
+    const {
+        authInitialized,
+        isAuthenticated
+    } = useSelector((state) => state.auth)
 
-    // 1. Restore authentication when the app starts
     useEffect(() => {
         const savedUser = localStorage.getItem("user")
         const savedToken = localStorage.getItem("token")
@@ -40,7 +41,6 @@ function App() {
         }
     }, [dispatch])
 
-    // 2. Fetch projects only after authentication is known
     useEffect(() => {
         if (authInitialized && isAuthenticated) {
             dispatch(fetchProjects())
@@ -48,47 +48,65 @@ function App() {
     }, [authInitialized, isAuthenticated, dispatch])
 
     return (
-        <>
-            <Navbar />
+        <div className="relative min-h-screen bg-black text-white">
 
-            <Routes>
-                <Route
-                    path="/login"
-                    element={<Login />}
+            {/* Fixed dotted background */}
+            <div className="pointer-events-none fixed inset-0 z-0">
+                <DotField
+                    dotRadius={1}
+                    dotSpacing={23}
+                    bulgeStrength={67}
+                    glowRadius={50}
+                    sparkle={false}
+                    waveAmplitude={0}
+                    cursorRadius={100}
+                    cursorForce={0.29}
+                    bulgeOnly
+                    gradientFrom="#000000"
+                    gradientTo="#ffffff"
+                    glowColor="#120F17"
                 />
-                <Route
-                    path="/register"
-                    element={<Register />}
-                />
+            </div>
 
-                <Route
-                    path="/"
-                    element={
-                        <ProtectedRoute>
-                            <Dashboard />
-                        </ProtectedRoute>
-                    }
-                />
+            {/* Application */}
+            <div className="relative z-10 pt-19">
+                <Navbar />
 
-                <Route
-                    path="/projects"
-                    element={
-                        <ProtectedRoute>
-                            <Projects />
-                        </ProtectedRoute>
-                    }
-                />
+                <Routes>
+                    <Route
+                        path="/login"
+                        element={<Login />}
+                    />
 
-                <Route
-                    path="/projects/:id"
-                    element={
-                        <ProtectedRoute>
-                            <ProjectDetails />
-                        </ProtectedRoute>
-                    }
-                />
-            </Routes>
-        </>
+                    <Route
+                        path="/"
+                        element={
+                            <ProtectedRoute>
+                                <Dashboard />
+                            </ProtectedRoute>
+                        }
+                    />
+
+                    <Route
+                        path="/projects"
+                        element={
+                            <ProtectedRoute>
+                                <Projects />
+                            </ProtectedRoute>
+                        }
+                    />
+
+                    <Route
+                        path="/projects/:id"
+                        element={
+                            <ProtectedRoute>
+                                <ProjectDetails />
+                            </ProtectedRoute>
+                        }
+                    />
+                </Routes>
+            </div>
+        </div>
     )
 }
 

@@ -58,7 +58,7 @@ function AddProject() {
 
     return (
         <section className="mb-10 bg-black text-white">
-            <div className="rounded-xl border border-gray-200 bg-black p-6 shadow-sm">
+            <div className="rounded-xl border border-white/10 bg-black/70 p-6 backdrop-blur-md">
 
                 <h2 className="mb-1 text-2xl font-bold text-white">
                     Add a new project
@@ -116,7 +116,7 @@ function AddProject() {
 
                     <button
                         type="submit"
-                        className="mt-4 rounded-lg bg-red-600 px-5 py-3 font-medium text-white transition hover:bg-orange-300"
+                        className="mt-4 rounded-lg bg-indigo-700 px-5 py-3 font-medium text-white transition hover:bg-indigo-600"
                     >
                         + Add Project
                     </button>

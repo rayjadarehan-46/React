@@ -25,7 +25,7 @@ function ProjectCard({ project }) {
     }
 
     return (
-        <article className="rounded-xl border border-gray-200 bg-black p-5 text-white shadow-sm transition hover:-translate-y-1 hover:shadow-md">
+        <article className="rounded-xl border border-white/10 bg-black/70 p-6 backdrop-blur-md">
 
             <div className="mb-4 flex items-start justify-between gap-4">
                 <h3 className="text-lg font-semibold text-white">

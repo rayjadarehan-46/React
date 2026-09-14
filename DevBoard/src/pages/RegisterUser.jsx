@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import { registerUser } from "../api/authApi"
+import SoftAurora from "../components/SoftAurora"
 
 function Register() {
     const [name, setName] = useState("")
@@ -34,6 +35,25 @@ function Register() {
 
     return (
         <main className="min-h-screen bg-black text-white">
+            <div className="pointer-events-none absolute inset-0" >
+            <SoftAurora
+                                speed={0.8}
+                                scale={1}
+                                brightness={0.45}
+                                color1="#8b5cf6"
+                                color2="#4f46e5"
+                                noiseFrequency={2}
+                                noiseAmplitude={0.5}
+                                bandHeight={0.45}
+                                bandSpread={1}
+                                octaveDecay={0.01}
+                                layerOffset={0}
+                                colorSpeed={1}
+                                enableMouseInteraction
+                                mouseInfluence={0.08}
+                            />
+                        </div>
+          <div className="relative z-10">
             <div className="mx-auto flex min-h-screen max-w-md items-center px-6">
                 <div className="w-full">
 
@@ -131,6 +151,7 @@ function Register() {
 
                 </div>
             </div>
+        </div>
         </main>
     )
 }

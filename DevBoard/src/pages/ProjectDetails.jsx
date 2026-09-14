@@ -25,7 +25,7 @@ function ProjectDetails() {
 
     if (!project) {
         return (
-            <main className="min-h-[calc(100vh-81px)] bg-black text-white">
+           <main className="min-h-[calc(100vh-81px)] bg-transparent text-white">
                 <div className="mx-auto max-w-5xl px-6 py-12">
                     <p className="text-gray-400">
                         Loading project...

@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
 import { logout } from "../features/auth/AuthSlice"
-import {  useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 
 function Navbar() {
     const dispatch = useDispatch()
@@ -12,8 +12,8 @@ function Navbar() {
         navigate("/login")
     }
     return (
-        <nav className="border-b border-gray-800 bg-black">
-            <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-5">
+        <nav className="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-black/85 backdrop-blur-xl">
+            <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-3.5">
 
                 <Link
                     to="/"
