@@ -18,14 +18,20 @@ const allowedOrigins = [
 app.use(
     cors({
         origin: (origin, callback) => {
+            // Logs the incoming URL to your Render console for easy debugging
+            console.log("CORS checking incoming origin:", origin);
+
             if (!origin || allowedOrigins.includes(origin)) {
-                callback(null, true)
+                callback(null, true);
             } else {
-                callback(new Error("Not allowed by CORS"))
+                // Passes false instead of throwing a hard Error object 
+                // This stops the backend from crashing and handles it cleanly
+                callback(null, false);
             }
-        }
+        },
+        credentials: true // Enable this if you pass authorization headers or cookies
     })
-)
+);
 app.use(express.json())
 app.use("/api/auth", authRoutes)
 app.use("/api/projects", projectRoutes)
