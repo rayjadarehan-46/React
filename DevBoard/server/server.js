@@ -13,7 +13,7 @@ const PORT = process.env.PORT || 5000
 
 const allowedOrigins = [
   'http://localhost:5173', // local host 
-  'https://devboard-api-lcj0.onrender.com' // Live React link 
+  'https://devspace-azure.vercel.app'    // Live vercel frontend  link 
 ];
 
 app.use(cors({
